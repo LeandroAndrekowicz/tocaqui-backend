@@ -7,8 +7,8 @@ export class AuthorityEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
-    @Column({ name: 'permision', type: 'enum', enum: AuthorityEnum, default: AuthorityEnum.STUDENT, nullable: false })
-    permision: AuthorityEnum;
+    @Column({ name: 'permission', type: 'enum', enum: AuthorityEnum, default: AuthorityEnum.STUDENT, nullable: false })
+    permission: AuthorityEnum;
 
     @ManyToOne(() => PersonEntity, person => person.authorities, { nullable: false, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'person_id' })

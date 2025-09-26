@@ -5,6 +5,7 @@ import { CategoryEntity } from "./models/entities/category.entity";
 import { CategoriesRepository } from "./repositories/category.repository";
 import { FindCategoriesController } from "./use-cases/find-categories/find-categories.controller";
 import { FindCategoriesUseCase } from "./use-cases/find-categories/find-categories.use-case";
+import { FindCategoryByIdUseCase } from "./use-cases/find-category-by-id/find-category-by-id.use-case";
 
 @Module({
     imports: [
@@ -17,8 +18,11 @@ import { FindCategoriesUseCase } from "./use-cases/find-categories/find-categori
         CategoriesRepository,
         SeedCategoriesUseCase,
         FindCategoriesUseCase,
+        FindCategoryByIdUseCase
     ],
-    exports: [],
+    exports: [
+        FindCategoryByIdUseCase
+    ],
 })
 export class CategoryModule implements OnModuleInit{
     constructor (

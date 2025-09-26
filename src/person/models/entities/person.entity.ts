@@ -1,4 +1,5 @@
 import { AuthorityEntity } from "src/authority/models/entities/authority.entity";
+import { CourseEntity } from "src/course/models/entities/course.entity";
 import { CredentialEntity } from "src/credential/models/entities/credential.entity";
 import { UserSessionEntity } from "src/user-session/models/entities/user-session.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -34,4 +35,7 @@ export class PersonEntity {
 
     @OneToMany(() => AuthorityEntity, authority => authority.person)
     authorities: AuthorityEntity[];
+
+    @OneToMany(() => CourseEntity, course => course.person)
+    courses: CourseEntity[];
 }

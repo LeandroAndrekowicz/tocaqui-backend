@@ -15,7 +15,7 @@ export class CreateAuthorityUseCase {
     async execute(body: CreateAuthorityDto) {
         try {
             const authorityToCreate: DeepPartial<AuthorityEntity> = {
-                permision: body.authority,
+                permission: body.authority,
                 person: { 
                     id: body.personId 
                 }

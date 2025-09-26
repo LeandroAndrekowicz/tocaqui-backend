@@ -21,7 +21,7 @@ export class UserSessionEntity {
     @Column({ name: "logout_date", type: "timestamptz", nullable: true })
     logoutDate: Date;
 
-    @ManyToOne(() => PersonEntity, person => person.id, { nullable: false })
-    @JoinColumn({ name: "person_id" })
+    @ManyToOne(() => PersonEntity, person => person.userSessions, { nullable: false })
+    @JoinColumn({ name: 'person_id' })
     person: PersonEntity;
 }

@@ -23,7 +23,8 @@ export class PersonRepository {
             },
             relations: {
                 credentials: true,
-                userSessions: true
+                userSessions: true,
+                authorities: true
             }
         });
     }
@@ -33,6 +34,20 @@ export class PersonRepository {
             id: personId
         }, {
             isActive: true
+        });
+    }
+
+    async findById(personId: number): Promise<PersonEntity | null> {
+        return await this.repository.findOne({
+            where: {
+                id: personId
+            },
+            relations: {
+                credentials: true,
+                userSessions: true,
+                authorities: true,
+                courses: true
+            }
         });
     }
 }

@@ -33,6 +33,18 @@ export class CategoriesRepository {
         return this.categoryRepository.find({
             where: {
                 isActive: true
+            },
+            relations: {
+                courseCategory: true,
+            }
+        });
+    }
+
+    async findById(id: number) {
+        return this.categoryRepository.findOne({
+            where: {
+                id,
+                isActive: true
             }
         });
     }

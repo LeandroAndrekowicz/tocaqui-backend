@@ -59,7 +59,7 @@ export class LoginUseCase {
 
     private async generateTokens(personData: PersonEntity, expiresIn: string): Promise<string> {
         return await this.jwtService.signAsync(
-            { sub: personData.id, name: personData.name },
+            { personId: personData.id, name: personData.name, role: personData.authorities[0].permission },
             { secret: process.env.JWT_SECRET, expiresIn: expiresIn }
         );
     }

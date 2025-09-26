@@ -9,6 +9,7 @@ import { FindPersonByCpfUseCase } from "./use-cases/find-person-by-cpf/find-pers
 import { AuthorityModule } from "src/authority/authority.module";
 import { ActivateAccountUseCase } from "./use-cases/activate-account/activate-account.use-case";
 import { ActivateAccountController } from "./use-cases/activate-account/activate-account.controller";
+import { FindPersonByIdUseCase } from "./use-cases/find-person-by-id/find-person-by-id.use-case";
 
 @Module({
     imports: [
@@ -24,10 +25,12 @@ import { ActivateAccountController } from "./use-cases/activate-account/activate
         PersonRepository,
         CreateAccountUseCase,
         FindPersonByCpfUseCase,
-        ActivateAccountUseCase
+        ActivateAccountUseCase,
+        FindPersonByIdUseCase
     ],
     exports: [
-        FindPersonByCpfUseCase
+        FindPersonByCpfUseCase,
+        FindPersonByIdUseCase
     ],
 })
 export class PersonModule {}
