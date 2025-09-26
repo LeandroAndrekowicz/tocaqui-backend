@@ -6,19 +6,25 @@ import { PersonRepository } from "./repositories/person.repository";
 import { CredentialModule } from "src/credential/credential.module";
 import { CreateAccountController } from "./use-cases/create-account/create-account.controller";
 import { FindPersonByCpfUseCase } from "./use-cases/find-person-by-cpf/find-person-by-cpf.use-case";
+import { AuthorityModule } from "src/authority/authority.module";
+import { ActivateAccountUseCase } from "./use-cases/activate-account/activate-account.use-case";
+import { ActivateAccountController } from "./use-cases/activate-account/activate-account.controller";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([PersonEntity]),
-        CredentialModule
+        CredentialModule,
+        AuthorityModule
     ],
     controllers: [
-        CreateAccountController
+        CreateAccountController,
+        ActivateAccountController
     ],
     providers: [
         PersonRepository,
         CreateAccountUseCase,
-        FindPersonByCpfUseCase
+        FindPersonByCpfUseCase,
+        ActivateAccountUseCase
     ],
     exports: [
         FindPersonByCpfUseCase

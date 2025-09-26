@@ -27,6 +27,10 @@ export class LoginUseCase {
 
             const personData: PersonEntity = person[0];
 
+            if(!personData.isActive) {
+                throw new UnauthorizedException("A conta não está ativa. Por favor, ative sua conta antes de fazer login.");
+            }
+
             const isValidPassword: boolean = await comparePasswordFunction(body.password, personData.credentials[0].password);
 
             if (!isValidPassword) {
@@ -34,9 +38,7 @@ export class LoginUseCase {
             }
 
             const token: string = await this.generateTokens(personData, process.env.JWT_EXPIRES_IN ?? '1h');
-
             const refreshToken: string = await this.generateTokens(personData, process.env.JWT_REFRESH_EXPIRES_IN ?? '7d');
-
             const userToCreate: CreateUserSessionDto = {
                 accessToken: token,
                 refreshToken: refreshToken,

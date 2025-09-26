@@ -27,4 +27,12 @@ export class PersonRepository {
             }
         });
     }
+
+    async activatePerson(personId: number): Promise<void> {
+        await this.repository.update({
+            id: personId
+        }, {
+            isActive: true
+        });
+    }
 }

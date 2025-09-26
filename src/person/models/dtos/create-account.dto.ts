@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length, Matches } from "class-validator";
+import { AuthorityEnum } from "src/authority/models/enums/authority.enum";
 
 export class CreatePersonWithCredentialDto {
   @IsString({ message: "O nome deve ser um texto." })
@@ -32,4 +33,8 @@ export class CreatePersonWithCredentialDto {
   @IsNotEmpty({ message: "A senha é obrigatória." })
   @Length(6, 60, { message: "A senha deve ter entre 6 e 60 caracteres." })
   password: string;
+
+  @IsNotEmpty({ message: "A autoridade é obrigatória." })
+  @IsEnum(AuthorityEnum, { message: "A autoridade informada é inválida." })
+  authority: AuthorityEnum;
 }
