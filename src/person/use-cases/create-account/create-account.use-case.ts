@@ -18,7 +18,7 @@ export class CreateAccountUseCase {
 
     async execute(body: CreatePersonWithCredentialDto) {
         try {
-            await this.findPersonByCpfUseCase.execute(body.cpf);
+            await this.findPersonByCpfUseCase.execute(body.cpf, true);
 
             const personToCreate: DeepPartial<PersonEntity> = {
                 cpf: body.cpf,

@@ -6,7 +6,7 @@ export class UserSessionEntity {
     @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
     id: number;
 
-    @Column({ name: "ip_address", type: "bigint", nullable: false })
+    @Column({ name: "ip_address", type: "character varying", nullable: false })
     ipAddress: string;
 
     @Column({ name: "access_token", type: "character varying", length: 255, nullable: false })

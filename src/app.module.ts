@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from './config/db.config';
 import { ConfigModule } from '@nestjs/config';
 import { UserSessionModule } from './user-session/user-session.module';
-import { CredentialModule } from './credential/credential.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +12,7 @@ import { CredentialModule } from './credential/credential.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AuthModule,
     PersonModule,
     UserSessionModule,
   ],

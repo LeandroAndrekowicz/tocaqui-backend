@@ -20,6 +20,8 @@ import { FindPersonByCpfUseCase } from "./use-cases/find-person-by-cpf/find-pers
         CreateAccountUseCase,
         FindPersonByCpfUseCase
     ],
-    exports: [],
+    exports: [
+        FindPersonByCpfUseCase
+    ],
 })
 export class PersonModule {}

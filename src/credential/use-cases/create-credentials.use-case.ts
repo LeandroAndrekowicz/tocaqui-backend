@@ -6,6 +6,7 @@ import { MethodEnum } from "src/common/enums/method.enum";
 import { DeepPartial } from "typeorm";
 import { CredentialEntity } from "../models/entities/credential.entity";
 import { CredentialsRepository } from "../repositories/credentials.repository";
+import { hashPasswordFunction } from "src/common/functions/hash-password.funcion";
 
 @Injectable()
 export class CreateCredentialsUseCase {
@@ -17,11 +18,12 @@ export class CreateCredentialsUseCase {
         try {
             const activationToken = generateNumericCodeFunction(6);
             const recoveryToken = generateNumericCodeFunction(6);
+            const hashPassword = await hashPasswordFunction(body.password);
 
             const credentialsToCreate: DeepPartial<CredentialEntity> = {
                 activationToken: activationToken,
                 recoveryToken: recoveryToken,
-                password: body.password,
+                password: hashPassword,
                 person: {
                     id: body.personId
                 }
