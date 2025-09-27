@@ -1,4 +1,5 @@
-import { IsDecimal, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ArrayNotEmpty, IsDecimal, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { DisponibleDaysEnum } from "src/common/enums/disponible-days.enum";
 
 export class CreateCourseDto {
     @IsNotEmpty({ message: 'O nome do curso é obrigatório' })
@@ -24,4 +25,8 @@ export class CreateCourseDto {
     @IsNotEmpty({ message: 'O ID do instrutor é obrigatório' })
     @IsNumber({}, { message: 'O ID do instrutor deve ser um número' })
     instructorId: number;
+
+    @ArrayNotEmpty({ message: 'Deve ser fornecido os dias disponíveis do curso. ' })
+    @IsEnum(DisponibleDaysEnum, { message: 'Os dias disponíveis devem estar presentes no enum.', each: true })
+    disponibleDays: DisponibleDaysEnum[]
 }

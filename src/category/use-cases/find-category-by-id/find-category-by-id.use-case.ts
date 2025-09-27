@@ -9,13 +9,13 @@ export class FindCategoryByIdUseCase {
         private readonly categoryRepository: CategoriesRepository
     ) { }
 
-    async execute(courseId: number) {
+    async execute(categoryId: number) {
         try {
-            if(!Number(courseId)) {
-                throw new BadRequestException(`Idenficador de curso ${courseId} inválido.`);
+            if(!Number(categoryId)) {
+                throw new BadRequestException(`Idenficador de curso ${categoryId} inválido.`);
             }
 
-            const category = await this.categoryRepository.findById(courseId);
+            const category = await this.categoryRepository.findById(categoryId);
 
             if (!category) {
                 throw new NotFoundException("Categoria solicitada não foi encontrada");

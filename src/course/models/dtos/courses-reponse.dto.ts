@@ -23,8 +23,13 @@ export class PersonResponseDto {
   name: string;
 
   @Expose()
-  @Transform(({ value }) => value ? `${process.env.BASE_URL}${value}` : null)
+  @Transform(({ value }) => value ? `${value}` : null)
   profilePicture: string | null;
+}
+
+export class DisponibleDaysReponseDto {
+  @Expose()
+  day: string;
 }
 
 export class CourseResponseDto {
@@ -51,4 +56,8 @@ export class CourseResponseDto {
   @Type(() => PersonResponseDto)
   @Expose()
   person: PersonResponseDto;
+
+  @Type(() => DisponibleDaysReponseDto)
+  @Expose()
+  disponibleDays: DisponibleDaysReponseDto
 }

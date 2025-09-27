@@ -10,12 +10,14 @@ import { FindAllCoursesController } from "./use-cases/find-all-courses/find-all-
 import { FindAllCoursesUseCase } from "./use-cases/find-all-courses/find-all-courses.use-case";
 import { FindCourseByCategoriesController } from "./use-cases/find-course-by-categories/find-course-by-categories.controller";
 import { FindCourseByCategoriesUseCase } from "./use-cases/find-course-by-categories/find-course-by-categories.use-case";
+import { DisponibleDaysModule } from "src/disponible-days/disponible-days.module";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([CourseEntity]),
         CategoryModule,
-        PersonModule
+        PersonModule,
+        DisponibleDaysModule
     ],
     controllers: [
         CreateCourseController,

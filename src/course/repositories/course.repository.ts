@@ -19,7 +19,8 @@ export class CourseRepository {
         return await this.courseRepository.find({
             relations: {
                 professor: true,
-                category: true
+                category: true,
+                disponibleDays: true,
             }
         })
     }
@@ -33,7 +34,8 @@ export class CourseRepository {
             },
             relations: {
                 professor: true,
-                category: true
+                category: true,
+                disponibleDays: true,
             }
         })
     }

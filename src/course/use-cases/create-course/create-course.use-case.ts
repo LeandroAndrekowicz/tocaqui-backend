@@ -6,6 +6,8 @@ import { handleUnexpectedError } from "src/common/functions/handle-unexpected-er
 import { CreateCourseDto } from "src/course/models/dtos/create-course.dto";
 import { CourseEntity } from "src/course/models/entities/course.entity";
 import { CourseRepository } from "src/course/repositories/course.repository";
+import { CreateDisponibleDaysDto } from "src/disponible-days/models/dtos/create-disponible-days.dto";
+import { CreateDisponibleDaysUseCase } from "src/disponible-days/use-cases/create-disponible-days/create-disponible-days.use-case";
 import { FindPersonByIdUseCase } from "src/person/use-cases/find-person-by-id/find-person-by-id.use-case";
 import { DeepPartial } from "typeorm";
 
@@ -14,16 +16,14 @@ export class CreateCourseUseCase {
     constructor(
         private readonly courseRepository: CourseRepository,
         private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase,
-        private readonly findPersonByIdUseCase: FindPersonByIdUseCase
+        private readonly findPersonByIdUseCase: FindPersonByIdUseCase,
+        private readonly createDisponibleDaysUseCase: CreateDisponibleDaysUseCase
     ) { }
 
     async execute(body: CreateCourseDto) {
         try {
             const category = await this.findCategoryByIdUseCase.execute(body.categoryId);
             const person = await this.findPersonByIdUseCase.execute(body.instructorId);
-
-            console.log(person);
-            
 
             const hasPermission = person.authorities.some(authority => 
                 authority.permission === AuthorityEnum.TEACHER || authority.permission === AuthorityEnum.ADMIN
@@ -43,6 +43,13 @@ export class CreateCourseUseCase {
             }
 
             const course = await this.courseRepository.create(courseToCreate);
+
+            const courseDays: CreateDisponibleDaysDto = {
+                courseId: course.id,
+                days: body.disponibleDays
+            }  
+
+            await this.createDisponibleDaysUseCase.execute(courseDays)
 
             return {
                 message: "Curso criado com sucesso.",

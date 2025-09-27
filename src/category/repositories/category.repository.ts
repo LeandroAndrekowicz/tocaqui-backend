@@ -17,7 +17,7 @@ export class CategoriesRepository {
 
     async seed(categories: CategoryType[]) {
         const sql = `
-            INSERT INTO category (name, description, logo_url, is_active) VALUES
+            INSERT INTO categories (name, description, logo_url, is_active) VALUES
             ${categories
             .map(
                 category =>
