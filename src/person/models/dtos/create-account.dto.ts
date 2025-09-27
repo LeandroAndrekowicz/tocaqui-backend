@@ -71,7 +71,7 @@ export class CreatePersonWithCredentialDto {
 
   @ApiProperty({
     description: "Autoridade/role da pessoa.",
-    example: AuthorityEnum.ADMIN,
+    example: AuthorityEnum.STUDENT,
     enum: AuthorityEnum
   })
   @IsNotEmpty({ message: "A autoridade é obrigatória." })

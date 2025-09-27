@@ -8,6 +8,8 @@ import { PersonRepository } from "src/person/repositories/person.repository";
 import { DeepPartial } from "typeorm";
 import { FindPersonByCpfUseCase } from "../find-person-by-cpf/find-person-by-cpf.use-case";
 import { CreateAuthorityUseCase } from "src/authority/use-cases/create-authority/create-authority.use-case";
+import { FindPersonByEmailUseCase } from "../find-person-by-email/find-person-by-email.use-case";
+import { FindPersonByPhoneUseCase } from "../find-person-by-phone/find-person-by-phone.use-case";
 
 @Injectable()
 export class CreateAccountUseCase {
@@ -15,12 +17,16 @@ export class CreateAccountUseCase {
         private readonly personRepository: PersonRepository,
         private readonly createCredentialUseCase: CreateCredentialsUseCase,
         private readonly findPersonByCpfUseCase: FindPersonByCpfUseCase,
-        private readonly createAuthorityUseCase: CreateAuthorityUseCase
-    ) {}
+        private readonly createAuthorityUseCase: CreateAuthorityUseCase,
+        private readonly findPersonByEmailUseCase: FindPersonByEmailUseCase,
+        private readonly findPersonByPhoneUseCase: FindPersonByPhoneUseCase
+    ) { }
 
     async execute(body: CreatePersonWithCredentialDto) {
         try {
             await this.findPersonByCpfUseCase.execute(body.cpf, true);
+            await this.findPersonByEmailUseCase.execute(body.email, true);
+            await this.findPersonByPhoneUseCase.execute(body.mobileNumber, true);
 
             const personToCreate: DeepPartial<PersonEntity> = {
                 cpf: body.cpf,
@@ -32,8 +38,8 @@ export class CreateAccountUseCase {
 
             const person = await this.personRepository.createAccount(personToCreate);
 
-            const credentials = await this.createCredentialUseCase.execute({password: body.password, personId: person.id});
-            await this.createAuthorityUseCase.execute({personId: person.id, authority: body.authority});
+            const credentials = await this.createCredentialUseCase.execute({ password: body.password, personId: person.id });
+            await this.createAuthorityUseCase.execute({ personId: person.id, authority: body.authority });
 
             return {
                 message: "Conta criada com sucesso.",

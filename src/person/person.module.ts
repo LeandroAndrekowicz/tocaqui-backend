@@ -10,6 +10,8 @@ import { AuthorityModule } from "src/authority/authority.module";
 import { ActivateAccountUseCase } from "./use-cases/activate-account/activate-account.use-case";
 import { ActivateAccountController } from "./use-cases/activate-account/activate-account.controller";
 import { FindPersonByIdUseCase } from "./use-cases/find-person-by-id/find-person-by-id.use-case";
+import { FindPersonByEmailUseCase } from "./use-cases/find-person-by-email/find-person-by-email.use-case";
+import { FindPersonByPhoneUseCase } from "./use-cases/find-person-by-phone/find-person-by-phone.use-case";
 
 @Module({
     imports: [
@@ -26,7 +28,9 @@ import { FindPersonByIdUseCase } from "./use-cases/find-person-by-id/find-person
         CreateAccountUseCase,
         FindPersonByCpfUseCase,
         ActivateAccountUseCase,
-        FindPersonByIdUseCase
+        FindPersonByIdUseCase,
+        FindPersonByEmailUseCase,
+        FindPersonByPhoneUseCase
     ],
     exports: [
         FindPersonByCpfUseCase,

@@ -55,7 +55,7 @@ export class CreateCourseDto {
         description: "Dias da semana disponíveis para o curso.",
         enum: DisponibleDaysEnum,
         isArray: true,
-        example: ["segunda", "quarta", "sexta"]
+        example: [DisponibleDaysEnum.FRIDAY, DisponibleDaysEnum.SATURDAY, DisponibleDaysEnum.TUESDAY]
     })
     @ArrayNotEmpty({ message: 'Deve ser fornecido ao menos um dia disponível do curso.' })
     @IsEnum(DisponibleDaysEnum, { message: 'Os dias disponíveis devem estar presentes no enum.', each: true })

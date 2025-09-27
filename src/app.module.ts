@@ -7,6 +7,7 @@ import { UserSessionModule } from './user-session/user-session.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
 import { CourseModule } from './course/course.module';
+import { LessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { CourseModule } from './course/course.module';
     PersonModule,
     UserSessionModule,
     CategoryModule,
-    CourseModule
+    CourseModule,
+    LessonModule
   ],
   controllers: [],
   providers: [],

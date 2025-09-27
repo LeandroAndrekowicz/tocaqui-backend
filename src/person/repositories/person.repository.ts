@@ -7,17 +7,17 @@ import { InjectRepository } from "@nestjs/typeorm";
 export class PersonRepository {
     constructor(
         @InjectRepository(PersonEntity)
-        private readonly repository: Repository<PersonEntity>
-    ) {}
+        private readonly personRepository: Repository<PersonEntity>
+    ) { }
 
     async createAccount(body: DeepPartial<PersonEntity>): Promise<PersonEntity> {
-        const person = this.repository.create(body);
+        const person = this.personRepository.create(body);
 
-        return this.repository.save(person);
+        return this.personRepository.save(person);
     }
 
-    async findByCpf(cpf: string): Promise<PersonEntity[]>{
-        return await this.repository.find({
+    async findByCpf(cpf: string): Promise<PersonEntity[]> {
+        return await this.personRepository.find({
             where: {
                 cpf
             },
@@ -30,7 +30,7 @@ export class PersonRepository {
     }
 
     async activatePerson(personId: number): Promise<void> {
-        await this.repository.update({
+        await this.personRepository.update({
             id: personId
         }, {
             isActive: true
@@ -38,7 +38,7 @@ export class PersonRepository {
     }
 
     async findById(personId: number): Promise<PersonEntity | null> {
-        return await this.repository.findOne({
+        return await this.personRepository.findOne({
             where: {
                 id: personId
             },
@@ -47,6 +47,22 @@ export class PersonRepository {
                 userSessions: true,
                 authorities: true,
                 courses: true
+            }
+        });
+    }
+
+    async findByEmail(email: string) {
+        return await this.personRepository.findOne({
+            where: {
+                email: email
+            }
+        });
+    }
+
+    async findByPhone(phone: string) {
+        return await this.personRepository.findOne({
+            where: {
+                mobileNumber: phone
             }
         });
     }

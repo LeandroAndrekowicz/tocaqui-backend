@@ -39,4 +39,12 @@ export class CourseRepository {
             }
         })
     }
+
+    async findById(courseId: number): Promise<CourseEntity | null> {
+        return await this.courseRepository.findOne({
+            where: {
+                id: courseId
+            }
+        })
+    }
 }
