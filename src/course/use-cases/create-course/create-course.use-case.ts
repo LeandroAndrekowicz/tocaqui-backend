@@ -35,7 +35,7 @@ export class CreateCourseUseCase {
 
             const courseToCreate: DeepPartial<CourseEntity> = {
                 category: category,
-                person: person,
+                professor: person,
                 name: body.name,
                 description: body.description,
                 lessonPrice: body.lessonPrice,

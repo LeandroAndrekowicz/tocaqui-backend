@@ -18,7 +18,7 @@ export class CourseRepository {
     async findAll() {
         return await this.courseRepository.find({
             relations: {
-                person: true,
+                professor: true,
                 category: true
             }
         })
@@ -32,7 +32,7 @@ export class CourseRepository {
                 }
             },
             relations: {
-                person: true,
+                professor: true,
                 category: true
             }
         })

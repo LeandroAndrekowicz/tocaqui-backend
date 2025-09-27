@@ -1,5 +1,5 @@
 export enum AuthorityEnum {
-    ADMIN = 'Admintrador',
+    ADMIN = 'Administrador',
     TEACHER = 'Professor',
     STUDENT = 'Estudante',
 }

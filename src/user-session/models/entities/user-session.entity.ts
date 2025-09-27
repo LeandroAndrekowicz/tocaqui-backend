@@ -1,7 +1,7 @@
 import { PersonEntity } from "src/person/models/entities/person.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "user_session" })
+@Entity({ name: "user_sessions" })
 export class UserSessionEntity {
     @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
     id: number;
@@ -22,6 +22,6 @@ export class UserSessionEntity {
     logoutDate: Date;
 
     @ManyToOne(() => PersonEntity, person => person.userSessions, { nullable: false })
-    @JoinColumn({ name: 'person_id' })
+    @JoinColumn({ name: 'id_person' })
     person: PersonEntity;
 }

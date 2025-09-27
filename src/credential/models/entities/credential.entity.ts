@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PersonEntity } from "src/person/models/entities/person.entity";
 
-@Entity({ name: "credential" })
+@Entity({ name: "credentials" })
 export class CredentialEntity {
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
   id: number;
@@ -16,6 +16,6 @@ export class CredentialEntity {
   recoveryToken?: string;
 
   @ManyToOne(() => PersonEntity, person => person.credentials, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "person_id" })
+  @JoinColumn({ name: "id_person" })
   person: PersonEntity;
 }

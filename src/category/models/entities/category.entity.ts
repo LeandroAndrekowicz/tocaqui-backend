@@ -1,7 +1,7 @@
 import { CourseEntity } from "src/course/models/entities/course.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({ name: 'category' })
+@Entity({ name: 'categories' })
 export class CategoryEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;

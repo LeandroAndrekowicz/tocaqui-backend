@@ -1,10 +1,11 @@
 import { AuthorityEntity } from "src/authority/models/entities/authority.entity";
 import { CourseEntity } from "src/course/models/entities/course.entity";
 import { CredentialEntity } from "src/credential/models/entities/credential.entity";
+import { LessonEntity } from "src/lesson/models/entities/lesson.entity";
 import { UserSessionEntity } from "src/user-session/models/entities/user-session.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "person" })
+@Entity({ name: "persons" })
 export class PersonEntity {
     @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
     id: number;
@@ -36,6 +37,12 @@ export class PersonEntity {
     @OneToMany(() => AuthorityEntity, authority => authority.person)
     authorities: AuthorityEntity[];
 
-    @OneToMany(() => CourseEntity, course => course.person)
+    @OneToMany(() => CourseEntity, course => course.professor)
     courses: CourseEntity[];
+
+    @OneToMany(() => LessonEntity, lesson => lesson.professor)
+    professorLesson: LessonEntity[];
+
+    @OneToMany(() => LessonEntity, lesson => lesson.student)
+    studentLesson: LessonEntity[];
 }

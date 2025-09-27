@@ -1,8 +1,10 @@
 import { CategoryEntity } from "src/category/models/entities/category.entity";
+import { CourseLessonEntity } from "src/course-lesson/models/entities/course-lesson.entity";
+import { DisponibleDaysEntity } from "src/disponible-days/models/entities/disponible-days.entity";
 import { PersonEntity } from "src/person/models/entities/person.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'course' })
+@Entity({ name: 'courses' })
 export class CourseEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
@@ -23,10 +25,16 @@ export class CourseEntity {
     createdAt: Date;
 
     @ManyToOne(() => CategoryEntity, category => category.courseCategory)
-    @JoinColumn({ name: 'category_id', foreignKeyConstraintName: 'fk_course_category' })
+    @JoinColumn({ name: 'id_category', foreignKeyConstraintName: 'fk_course_category' })
     category: CategoryEntity;
 
     @ManyToOne(() => PersonEntity, person => person.courses, { nullable: false })
-    @JoinColumn({ name: 'person_id', foreignKeyConstraintName: 'fk_course_person' })
-    person: PersonEntity;
+    @JoinColumn({ name: 'id_professor', foreignKeyConstraintName: 'fk_course_professor' })
+    professor: PersonEntity;
+
+    @OneToMany(() => DisponibleDaysEntity, disponibleDay => disponibleDay.course)
+    disponibleDays: DisponibleDaysEntity[]
+
+    @OneToMany(() => CourseLessonEntity, courseLesson => courseLesson.course)
+    courseLesson: CourseLessonEntity[]
 }
