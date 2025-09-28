@@ -10,6 +10,7 @@ import { FindPersonByCpfUseCase } from "../find-person-by-cpf/find-person-by-cpf
 import { CreateAuthorityUseCase } from "src/authority/use-cases/create-authority/create-authority.use-case";
 import { FindPersonByEmailUseCase } from "../find-person-by-email/find-person-by-email.use-case";
 import { FindPersonByPhoneUseCase } from "../find-person-by-phone/find-person-by-phone.use-case";
+import { SendEmailUseCase } from "src/email/use-cases/send-email/send-email.use-case";
 
 @Injectable()
 export class CreateAccountUseCase {
@@ -19,7 +20,8 @@ export class CreateAccountUseCase {
         private readonly findPersonByCpfUseCase: FindPersonByCpfUseCase,
         private readonly createAuthorityUseCase: CreateAuthorityUseCase,
         private readonly findPersonByEmailUseCase: FindPersonByEmailUseCase,
-        private readonly findPersonByPhoneUseCase: FindPersonByPhoneUseCase
+        private readonly findPersonByPhoneUseCase: FindPersonByPhoneUseCase,
+        private readonly sendEmailUseCase: SendEmailUseCase,
     ) { }
 
     async execute(body: CreatePersonWithCredentialDto) {
@@ -41,9 +43,10 @@ export class CreateAccountUseCase {
             const credentials = await this.createCredentialUseCase.execute({ password: body.password, personId: person.id });
             await this.createAuthorityUseCase.execute({ personId: person.id, authority: body.authority });
 
+            await this.sendEmailUseCase.execute(body.email, credentials.activationToken);
+
             return {
-                message: "Conta criada com sucesso.",
-                activationToken: credentials.activationToken
+                message: "Conta criada com sucesso. Por favor valide seu email",
             }
         } catch (error) {
             handleUnexpectedError(error, CreateAccountUseCase.name, MethodEnum.CREATE, "Ocorrreu um erro ao criar a conta, por favor entre em contato com o suporte.");

@@ -12,12 +12,14 @@ import { ActivateAccountController } from "./use-cases/activate-account/activate
 import { FindPersonByIdUseCase } from "./use-cases/find-person-by-id/find-person-by-id.use-case";
 import { FindPersonByEmailUseCase } from "./use-cases/find-person-by-email/find-person-by-email.use-case";
 import { FindPersonByPhoneUseCase } from "./use-cases/find-person-by-phone/find-person-by-phone.use-case";
+import { EmailModule } from "src/email/email.module";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([PersonEntity]),
         CredentialModule,
-        AuthorityModule
+        AuthorityModule,
+        EmailModule
     ],
     controllers: [
         CreateAccountController,
