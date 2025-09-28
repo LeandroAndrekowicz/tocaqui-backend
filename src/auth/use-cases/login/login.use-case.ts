@@ -21,28 +21,26 @@ export class LoginUseCase {
         try {
             const person = await this.findPersonByCpfUseCase.execute(body.cpf, false);
 
-            if (!person.length && !person[0]?.credentials?.length) {
+            if (!person) {
                 throw new UnauthorizedException("CPF ou senha inválidos.");
             }
 
-            const personData: PersonEntity = person[0];
-
-            if(!personData.isActive) {
+            if(!person.isActive) {
                 throw new UnauthorizedException("A conta não está ativa. Por favor, ative sua conta antes de fazer login.");
             }
 
-            const isValidPassword: boolean = await comparePasswordFunction(body.password, personData.credentials[0].password);
+            const isValidPassword: boolean = await comparePasswordFunction(body.password, person.credentials[0].password);
 
             if (!isValidPassword) {
                 throw new UnauthorizedException("CPF ou senha inválidos.");
             }
 
-            const token: string = await this.generateTokens(personData, process.env.JWT_EXPIRES_IN ?? '1h');
-            const refreshToken: string = await this.generateTokens(personData, process.env.JWT_REFRESH_EXPIRES_IN ?? '7d');
+            const token: string = await this.generateTokens(person, process.env.JWT_EXPIRES_IN ?? '1h');
+            const refreshToken: string = await this.generateTokens(person, process.env.JWT_REFRESH_EXPIRES_IN ?? '7d');
             const userToCreate: CreateUserSessionDto = {
                 accessToken: token,
                 refreshToken: refreshToken,
-                personId: personData.id,
+                personId: person.id,
                 ipAddress: ipAddress
             }
 

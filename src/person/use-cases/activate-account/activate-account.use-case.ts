@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { MethodEnum } from "src/common/enums/method.enum";
 import { handleUnexpectedError } from "src/common/functions/handle-unexpected-error.function";
 import { ActivateAccountDto } from "src/person/models/dtos/activate-account.dto";
@@ -7,26 +7,30 @@ import { FindPersonByCpfUseCase } from "src/person/use-cases/find-person-by-cpf/
 
 @Injectable()
 export class ActivateAccountUseCase {
-    constructor (
+    constructor(
         private readonly findPersonByCpfUseCase: FindPersonByCpfUseCase,
         private readonly personRepository: PersonRepository
-    ) {}
+    ) { }
 
     async execute(body: ActivateAccountDto) {
         try {
             const person = await this.findPersonByCpfUseCase.execute(body.cpf, false);
 
-            if(person[0].isActive) {
+            if (!person) {
+                throw new NotFoundException(`Pessoa não encontrada.`);
+            }
+
+            if (person.isActive) {
                 return {
                     message: "A conta já está ativa."
                 }
             }
 
-            if(person[0].credentials[0].activationToken !== body.code) {
+            if (person.credentials[0].activationToken !== body.code) {
                 throw new UnauthorizedException("O código informado é inválido.");
             }
 
-            await this.personRepository.activatePerson(person[0].id);
+            await this.personRepository.activatePerson(person.id);
 
             return {
                 message: "Conta ativada com sucesso."

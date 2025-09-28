@@ -16,8 +16,8 @@ export class PersonRepository {
         return this.personRepository.save(person);
     }
 
-    async findByCpf(cpf: string): Promise<PersonEntity[]> {
-        return await this.personRepository.find({
+    async findByCpf(cpf: string): Promise<PersonEntity | null> {
+        return await this.personRepository.findOne({
             where: {
                 cpf
             },

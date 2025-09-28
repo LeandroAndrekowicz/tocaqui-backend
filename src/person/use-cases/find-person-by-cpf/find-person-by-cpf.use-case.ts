@@ -10,7 +10,7 @@ export class FindPersonByCpfUseCase {
     async execute(cpf: string, isCreateAccount: boolean) {
         const person = await this.personRepository.findByCpf(cpf);
 
-        if(person.length && isCreateAccount) {
+        if(person && isCreateAccount) {
             throw new ConflictException("Já existe uma conta vinculada a esse CPF.");
         }
 
