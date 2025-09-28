@@ -20,7 +20,7 @@ export class SendEmailUseCase {
 
     async execute(to: string, code: string,): Promise<SentMessageInfo> {
         const mailOptions: SendMailOptions = {
-            from: `"Minha App" <${process.env.SMTP_LOGIN}>`,
+            from: `"Tocaqui LTDA" <${process.env.SMTP_LOGIN}>`,
             to,
             subject: "Seu código de verificação 🔐",
             html: `
