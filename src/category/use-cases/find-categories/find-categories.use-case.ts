@@ -5,26 +5,29 @@ import { handleUnexpectedError } from "src/common/functions/handle-unexpected-er
 
 @Injectable()
 export class FindCategoriesUseCase {
-    constructor (
+    constructor(
         private readonly categoriesRepository: CategoriesRepository
-    ) {}
+    ) { }
 
     async execute() {
         try {
             const categories = await this.categoriesRepository.findAll();
 
-            if(!categories.length) {
+            if (!categories.length) {
                 throw new NotFoundException("Nenhuma categoria encontrada");
             }
 
-            return categories.map(category => {
-                const {logoUrl, createdAt, updatedAt, isActive, ...rest} = category;
+            return {
+                message: "Sucesso ao buscar categorias",
+                categories: categories.map(category => {
+                    const { logoUrl, createdAt, updatedAt, isActive, ...rest } = category;
 
-                return {
-                    ...rest,
-                    logoUrl: logoUrl ? `${process.env.BASE_URL}${logoUrl}` : null
-                }
-            })
+                    return {
+                        ...rest,
+                        logoUrl: logoUrl ? `${process.env.BASE_URL}${logoUrl}` : null
+                    }
+                })
+            }
         } catch (error) {
             handleUnexpectedError(error, FindCategoriesUseCase.name, MethodEnum.GET, "Ocorreu um problema ao buscar as categorias, por favor entre em contato com o suporte");
         }

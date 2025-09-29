@@ -15,7 +15,7 @@ export class FindCourseByIdUseCase {
                 throw new BadRequestException(`Identificador de curso ${courseId} inválido.`);
             }
 
-            const course = await this.courseRepository.findById(courseId);
+            const course = await this.courseRepository.findById(courseId);            
 
             if(!course) {
                 throw new NotFoundException(`Não possuem cursos cadastrados com o identificador ${courseId}.`);

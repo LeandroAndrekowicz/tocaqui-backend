@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Ip, Post } from "@nestjs/common";
 import { CreateAccountUseCase } from "./create-account.use-case";
 import { CreatePersonWithCredentialDto } from "src/person/models/dtos/create-account.dto";
 import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -14,8 +14,9 @@ export class CreateAccountController {
     @ApiOperation({ summary: 'Realiza o login do usuário.' })
     @ApiBody({ type: CreatePersonWithCredentialDto })
     async createAccount(
+        @Ip() ipAddress: string,
         @Body() body: CreatePersonWithCredentialDto
     ) {
-        return this.createAccountUseCase.execute(body);
+        return this.createAccountUseCase.execute(body, ipAddress);
     }
 }

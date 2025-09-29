@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { PersonModule } from "src/person/person.module";
 import { LoginUseCase } from "./use-cases/login/login.use-case";
 import { LoginController } from "./use-cases/login/login.controller";
@@ -7,9 +7,9 @@ import { UserSessionModule } from "src/user-session/user-session.module";
 
 @Module({
     imports: [
-        PersonModule,
+        forwardRef(() => PersonModule),
         JwtModule,
-        UserSessionModule
+        UserSessionModule,
     ],
     controllers: [
         LoginController
@@ -17,6 +17,8 @@ import { UserSessionModule } from "src/user-session/user-session.module";
     providers: [
         LoginUseCase
     ],
-    exports: [],
+    exports: [
+        LoginUseCase
+    ],
 })
 export class AuthModule {}

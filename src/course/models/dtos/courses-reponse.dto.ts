@@ -2,65 +2,71 @@ import { Expose, Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CategoryResponseDto {
-  @ApiProperty({ example: 1, description: 'ID da categoria.' })
+  @ApiProperty({ example: 5, description: 'ID da categoria.' })
   @Expose()
   id: number;
 
-  @ApiProperty({ example: 'Programação', description: 'Nome da categoria.' })
+  @ApiProperty({ example: 'Cordas clássicas', description: 'Nome da categoria.' })
   @Expose()
   name: string;
 
-  @ApiProperty({ example: 'Cursos de desenvolvimento de software.', description: 'Descrição da categoria.' })
+  @ApiProperty({ example: 'Violinos, violas, violoncelos e contrabaixos.', description: 'Descrição da categoria.' })
   @Expose()
   description: string;
 
-  @ApiProperty({ example: 'https://meusite.com/logos/logo.png', description: 'URL do logo da categoria.' })
+  @ApiProperty({ example: '/pictures/logos/violin.png', description: 'URL do logo da categoria.' })
   @Expose()
   @Transform(({ value }) => `${process.env.BASE_URL}${value}`)
   logoUrl: string;
 }
 
-export class PersonResponseDto {
-  @ApiProperty({ example: 15, description: 'ID da pessoa.' })
+export class ProfessorResponseDto {
+  @ApiProperty({ example: 1, description: 'ID do professor.' })
   @Expose()
   id: number;
 
-  @ApiProperty({ example: 'João da Silva', description: 'Nome completo da pessoa.' })
+  @ApiProperty({ example: 'LEANDRO ANDREKOWICZ', description: 'Nome completo do professor.' })
   @Expose()
   name: string;
 
-  @ApiProperty({ example: 'https://meusite.com/perfil/joao.png', description: 'URL da foto de perfil da pessoa.', nullable: true })
+  @ApiProperty({ example: '42988316222', description: 'Telefone do professor.' })
   @Expose()
-  @Transform(({ value }) => value ? `${value}` : null)
-  profilePicture: string | null;
+  mobileNumber: string;
+
+  @ApiProperty({ example: 'https://i.pinimg.com/236x/ab/f1/d0/abf1d00cd069abe14363f2fbe68ee3e1.jpg', description: 'Foto de perfil do professor.' })
+  @Expose()
+  profilePicture: string;
 }
 
 export class DisponibleDaysResponseDto {
-  @ApiProperty({ example: 'segunda', description: 'Dia da semana disponível.' })
+  @ApiProperty({ example: 4, description: 'ID do dia disponível.' })
+  @Expose()
+  id: number;
+
+  @ApiProperty({ example: 'Sexta-feira', description: 'Dia da semana disponível.' })
   @Expose()
   day: string;
 }
 
 export class CourseResponseDto {
-  @ApiProperty({ example: 101, description: 'ID do curso.' })
+  @ApiProperty({ example: 2, description: 'ID do curso.' })
   @Expose()
   id: number;
 
-  @ApiProperty({ example: 'Curso de React Avançado', description: 'Nome do curso.' })
+  @ApiProperty({ example: 'dasdasdas', description: 'Nome do curso.' })
   @Expose()
   name: string;
 
-  @ApiProperty({ example: 'Aprenda React avançado com práticas de mercado.', description: 'Descrição detalhada do curso.' })
+  @ApiProperty({ example: 'Descrição do curso', description: 'Descrição detalhada do curso.' })
   @Expose()
   description: string;
 
-  @ApiProperty({ example: '120.50', description: 'Preço da aula do curso.' })
+  @ApiProperty({ example: '312.33', description: 'Preço da aula do curso.' })
   @Expose()
   lessonPrice: string;
 
-  @ApiProperty({ example: 'https://meusite.com/thumbnails/react.png', description: 'URL da imagem de thumbnail do curso.' })
+  @ApiProperty({ example: '12313123123', description: 'Thumbnail do curso.' })
   @Expose()
-  @Transform(({ value }) => `${process.env.BASE_URL}${value}`)
   thumbnailPicture: string;
 
   @ApiProperty({ type: () => CategoryResponseDto, description: 'Categoria do curso.' })
@@ -68,10 +74,10 @@ export class CourseResponseDto {
   @Expose()
   category: CategoryResponseDto;
 
-  @ApiProperty({ type: () => PersonResponseDto, description: 'Informações do professor/instrutor.' })
-  @Type(() => PersonResponseDto)
+  @ApiProperty({ type: () => ProfessorResponseDto, description: 'Informações do professor.' })
+  @Type(() => ProfessorResponseDto)
   @Expose()
-  person: PersonResponseDto;
+  professor: ProfessorResponseDto;
 
   @ApiProperty({ type: () => [DisponibleDaysResponseDto], description: 'Dias disponíveis do curso.' })
   @Type(() => DisponibleDaysResponseDto)

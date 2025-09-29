@@ -17,7 +17,7 @@ export class LoginUseCase {
         private readonly createUserSessionUseCase: CreateUserSessionUseCase
     ) { }
 
-    async execute(body: LoginDto, ipAddress: string) {
+    async execute(body: LoginDto, ipAddress: string, isLogin?: boolean) {
         try {
             const person = await this.findPersonByCpfUseCase.execute(body.cpf, false);
 
@@ -25,7 +25,7 @@ export class LoginUseCase {
                 throw new UnauthorizedException("CPF ou senha inválidos.");
             }
 
-            if(!person.isActive) {
+            if(!person.isActive && !isLogin) {
                 throw new UnauthorizedException("A conta não está ativa. Por favor, ative sua conta antes de fazer login.");
             }
 
@@ -57,7 +57,7 @@ export class LoginUseCase {
 
     private async generateTokens(personData: PersonEntity, expiresIn: string): Promise<string> {
         return await this.jwtService.signAsync(
-            { personId: personData.id, name: personData.name, role: personData.authorities[0].permission },
+            { personId: personData.id, name: personData.name, role: personData?.authorities[0]?.permission },
             { secret: process.env.JWT_SECRET, expiresIn: expiresIn }
         );
     }

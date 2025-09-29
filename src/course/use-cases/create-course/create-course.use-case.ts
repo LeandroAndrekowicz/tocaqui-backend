@@ -25,7 +25,7 @@ export class CreateCourseUseCase {
             const category = await this.findCategoryByIdUseCase.execute(body.categoryId);
             const person = await this.findPersonByIdUseCase.execute(body.instructorId);
 
-            const hasPermission = person.authorities.some(authority => 
+            const hasPermission = person.authorities.some(authority =>
                 authority.permission === AuthorityEnum.TEACHER || authority.permission === AuthorityEnum.ADMIN
             );
 
@@ -45,9 +45,9 @@ export class CreateCourseUseCase {
             const course = await this.courseRepository.create(courseToCreate);
 
             const courseDays: CreateDisponibleDaysDto = {
-                courseId: course.id,
+                course: course,
                 days: body.disponibleDays
-            }  
+            }
 
             await this.createDisponibleDaysUseCase.execute(courseDays)
 

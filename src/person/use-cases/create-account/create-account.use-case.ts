@@ -11,6 +11,9 @@ import { CreateAuthorityUseCase } from "src/authority/use-cases/create-authority
 import { FindPersonByEmailUseCase } from "../find-person-by-email/find-person-by-email.use-case";
 import { FindPersonByPhoneUseCase } from "../find-person-by-phone/find-person-by-phone.use-case";
 import { SendEmailUseCase } from "src/email/use-cases/send-email/send-email.use-case";
+import { LoginUseCase } from "src/auth/use-cases/login/login.use-case";
+import { CreateUserSessionUseCase } from "src/user-session/use-cases/create-user-session.use-case";
+import { CreateUserSessionDto } from "src/user-session/models/dtos/create-user-session.dto";
 
 @Injectable()
 export class CreateAccountUseCase {
@@ -22,9 +25,10 @@ export class CreateAccountUseCase {
         private readonly findPersonByEmailUseCase: FindPersonByEmailUseCase,
         private readonly findPersonByPhoneUseCase: FindPersonByPhoneUseCase,
         private readonly sendEmailUseCase: SendEmailUseCase,
+        private readonly loginUseCase: LoginUseCase,
     ) { }
 
-    async execute(body: CreatePersonWithCredentialDto) {
+    async execute(body: CreatePersonWithCredentialDto, ipAddress: string) {
         try {
             await this.findPersonByCpfUseCase.execute(body.cpf, true);
             await this.findPersonByEmailUseCase.execute(body.email, true);
@@ -39,11 +43,11 @@ export class CreateAccountUseCase {
             }
 
             const person = await this.personRepository.createAccount(personToCreate);
-
             const credentials = await this.createCredentialUseCase.execute({ password: body.password, personId: person.id });
-            await this.createAuthorityUseCase.execute({ personId: person.id, authority: body.authority });
 
+            await this.createAuthorityUseCase.execute({ personId: person.id, authority: body.authority });
             await this.sendEmailUseCase.execute(body.email, credentials.activationToken);
+            await this.loginUseCase.execute({cpf: body.cpf, password: body.password}, ipAddress, true ) 
 
             return {
                 message: "Conta criada com sucesso. Por favor valide seu email",

@@ -5,10 +5,10 @@ import { DeepPartial, In, Repository } from "typeorm";
 
 @Injectable()
 export class CourseRepository {
-    constructor (
+    constructor(
         @InjectRepository(CourseEntity)
         private readonly courseRepository: Repository<CourseEntity>
-    ) {}
+    ) { }
 
     async create(data: DeepPartial<CourseEntity>) {
         const course = this.courseRepository.create(data);
@@ -44,6 +44,11 @@ export class CourseRepository {
         return await this.courseRepository.findOne({
             where: {
                 id: courseId
+            },
+            relations: {
+                professor: true,
+                category: true,
+                disponibleDays: true,
             }
         })
     }

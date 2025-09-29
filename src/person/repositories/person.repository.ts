@@ -46,7 +46,9 @@ export class PersonRepository {
                 credentials: true,
                 userSessions: true,
                 authorities: true,
-                courses: true
+                courses: {
+                    disponibleDays: true
+                },
             }
         });
     }

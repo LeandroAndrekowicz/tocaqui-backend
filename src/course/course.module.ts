@@ -12,6 +12,7 @@ import { FindCourseByCategoriesController } from "./use-cases/find-course-by-cat
 import { FindCourseByCategoriesUseCase } from "./use-cases/find-course-by-categories/find-course-by-categories.use-case";
 import { DisponibleDaysModule } from "src/disponible-days/disponible-days.module";
 import { FindCourseByIdUseCase } from "./use-cases/find-course-by-id/find-course-by-id.use-case";
+import { FindCourseByIdController } from "./use-cases/find-course-by-id/find-course-by-id.controller";
 
 @Module({
     imports: [
@@ -24,13 +25,14 @@ import { FindCourseByIdUseCase } from "./use-cases/find-course-by-id/find-course
         CreateCourseController,
         FindAllCoursesController,
         FindCourseByCategoriesController,
+        FindCourseByIdController
     ],
     providers: [
         CourseRepository,
         CreateCourseUseCase,
         FindAllCoursesUseCase,
         FindCourseByCategoriesUseCase,
-        FindCourseByIdUseCase
+        FindCourseByIdUseCase,
     ],
     exports: [
         FindCourseByIdUseCase

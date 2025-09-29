@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PersonEntity } from "./models/entities/person.entity";
 import { CreateAccountUseCase } from "./use-cases/create-account/create-account.use-case";
@@ -13,17 +13,22 @@ import { FindPersonByIdUseCase } from "./use-cases/find-person-by-id/find-person
 import { FindPersonByEmailUseCase } from "./use-cases/find-person-by-email/find-person-by-email.use-case";
 import { FindPersonByPhoneUseCase } from "./use-cases/find-person-by-phone/find-person-by-phone.use-case";
 import { EmailModule } from "src/email/email.module";
+import { AuthModule } from "src/auth/auth.module";
+import { UserSessionModule } from "src/user-session/user-session.module";
+import { FindPersonByIdController } from "./use-cases/find-person-by-id/find-person-by-id.controller";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([PersonEntity]),
         CredentialModule,
         AuthorityModule,
-        EmailModule
+        EmailModule,
+        forwardRef(() => AuthModule),
     ],
     controllers: [
         CreateAccountController,
-        ActivateAccountController
+        ActivateAccountController,
+        FindPersonByIdController
     ],
     providers: [
         PersonRepository,

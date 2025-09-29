@@ -18,11 +18,11 @@ export class CreateDisponibleDaysUseCase {
                 throw new BadRequestException('Deve ser fornecido pelo menos um dia disponível para cadastro do curso.');
             }
 
-            Promise.all(
+            await Promise.all(
                 body.days.map(async (day) => {
                     const dayToCreate: DeepPartial<DisponibleDaysEntity> = {
                         course: {
-                            id: body.courseId,
+                            id:  body.course.id
                         },
                         day: day
                     }
